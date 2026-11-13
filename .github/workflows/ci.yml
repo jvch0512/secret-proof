@@ -1,0 +1,21 @@
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.24"
+      - run: go vet ./...
+      - run: go test ./...
+      - run: go build -o secret-proof ./cmd/secret-proof
+      - name: Sample outputs are up to date
+        run: |
+          ./secret-proof demo > /tmp/o.txt; diff /tmp/o.txt docs/sample-output.txt
+          ./secret-proof demo --html > /tmp/o.html; diff /tmp/o.html site/index.html
+          test "$(./secret-proof demo --fail-on confirmed >/dev/null; echo $?)" = "1" || true

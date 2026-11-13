@@ -1,0 +1,24 @@
+structure-confirmed GitHub personal access token   deploy/ci.yml:2  ghp_******yf
+    the 6-character CRC32 checksum matches: this is a real-format token, treat it as live and revoke it
+structure-confirmed npm access token               deploy/ci.yml:3  npm_******ms
+    the 6-character CRC32 checksum matches: this is a real-format token, treat it as live and revoke it
+plausible           AWS access key ID              app/config.py:1  AKIA******HD
+    valid shape; check CloudTrail and rotate. An ID alone is not a secret key, look for the paired secret nearby
+plausible           hard-coded secret              app/config.py:2  Tr0u******Zv
+    high-entropy value (4.4 bits per character) assigned to a secret-like name
+plausible           private key block              keys/id_old:1  ----******EY
+    a private key is committed: rotate anything it protects
+plausible           JWT                            tests/fixtures.json:1  eyJh******Jl
+    unexpired (valid until 2026-12-13): revoke and rotate the signing key if it is production
+plausible           JWT                            tests/fixtures.json:1  eyJh******Jl
+    alg=none token: any claim set is accepted by a vulnerable verifier
+likely-fake         GitHub personal access token   docs/howto.md:1  ghp_******AA
+    checksum does not match: fabricated, truncated or mistyped
+likely-fake         AWS access key ID              docs/howto.md:2  AKIA******LE
+    placeholder or documentation value
+likely-fake         hard-coded secret              app/config.py:3  chan******90
+    looks like a placeholder
+likely-fake         hard-coded secret              app/config.py:4  aaaa******aa
+    low entropy (0.0 bits per character)
+likely-fake         JWT                            tests/fixtures.json:1  eyJh******Jl
+    expired on 2026-08-15: harmless unless the signing key leaked too
